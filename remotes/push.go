@@ -204,6 +204,8 @@ func pushBundleConfigDescriptor(ctx context.Context, name string, resolver remot
 	logger.Debugf("Trying to push CNAB Bundle %s", name)
 	logger.Debugf("CNAB Bundle %s Descriptor", name)
 	logPayload(logger, descriptor)
+	logger.Debugf("CNAB Bundle %s Descriptor payload", name)
+	logPayload(logger, string(payload))
 
 	if err := pushPayload(ctx, resolver, reference, descriptor, payload); err != nil {
 		if allowFallbacks && fallback != nil {

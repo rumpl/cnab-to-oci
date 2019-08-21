@@ -90,11 +90,15 @@ type bundleConfigPreparer func(blob []byte) (*PreparedBundleConfig, error)
 
 func prepareOCIBundleConfig(mediaType string) bundleConfigPreparer {
 	return func(blob []byte) (*PreparedBundleConfig, error) {
+		desc := descriptorOf(blob, mediaType)
 		manifest := ocischemav1.Manifest{
 			Versioned: ocischema.Versioned{
 				SchemaVersion: OCIIndexSchemaVersion,
 			},
-			Config: descriptorOf(blob, mediaType),
+			Layers: []ocischemav1.Descriptor{
+				desc,
+			},
+			Config: desc,
 		}
 		manifestBytes, err := json.Marshal(&manifest)
 		if err != nil {

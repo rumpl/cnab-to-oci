@@ -273,7 +273,7 @@ func makeDescriptor(baseImage bundle.BaseImage, targetReference reference.Named)
 	}
 	return ocischemav1.Descriptor{
 		Digest:    digested.Digest(),
-		MediaType: baseImage.MediaType,
+		MediaType: ocischemav1.MediaTypeImageManifest,
 		Size:      int64(baseImage.Size),
 	}, nil
 }
