@@ -64,6 +64,13 @@ func pushIndex(ctx context.Context, b *bundle.Bundle, ref reference.Named, resol
 	logger := log.G(ctx)
 	logger.Debug("Pushing CNAB Index")
 
+	options = append(options, func(idx *ocischemav1.Index) error {
+		for i := range idx.Manifests {
+			idx.Manifests[i].MediaType = ocischemav1.MediaTypeImageManifest
+		}
+		return nil
+	})
+
 	indexDescriptor, indexPayload, err := prepareIndex(b, ref, confManifestDescriptor, options...)
 	if err != nil {
 		return ocischemav1.Descriptor{}, err
